@@ -1,11 +1,24 @@
+import React, {useState} from 'react'
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';    //reactnative supports button view which is self closing tag.
+
 
 export default function App() {
+
+  const [name, setName] = useState("samreen");    //using the useState hook
+  const [person, setPerson] =useState({name: 'Chanyeol', age: 30});
+
+
+  //function
+  const myButton = () =>{
+    setName('Simran Simran');
+    setPerson({name: 'maryum', age: 20});
+  }
+
   return (
     <View style={styles.container}>   {/*..View in native is same as div component and 'style={}' is same as 'className={}'.... */}
       <View style={styles.header}>
-        <Text style={styles.boldText}>Header </Text> 
+        <Text style={styles.boldText}>Header</Text> 
       </View>
       <View style={styles.body}>
         <Text style={styles.boldText}>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
@@ -13,6 +26,17 @@ export default function App() {
         <Text>deserunt, ratione eligendi veniam voluptatum aliquam repellat iusto inventore? Consectetur.</Text>
         </Text>
       </View>
+
+
+     
+      <Text>My name is {name}</Text>
+      <Text>Person name is {person.name} and his age is {person.age}</Text>
+      <View style={styles.buttonContainer}>
+        <Button title='Update State' onPress={myButton}/>    {/*We cannot add styles property to button directly, not allowed. */}
+      </View>     
+  
+
+
       <StatusBar style="auto" />
     </View>
   );
@@ -36,6 +60,9 @@ const styles = StyleSheet.create({      //Creating stylesheet
     backgroundColor: 'yellow',
     padding: 20
   },
+  buttonContainer: {
+    marginTop: 20,
+  }
 });
 
 
