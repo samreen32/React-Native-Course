@@ -1,12 +1,18 @@
 import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';    //reactnative supports button view which is self closing tag.
+import { StyleSheet, Text, View, Button, TextInput, ScrollView } from 'react-native';    //reactnative supports button view which is self closing tag.
 
 
 export default function App() {
 
   const [name, setName] = useState("samreen");    //using the useState hook
   const [person, setPerson] =useState({name: 'Chanyeol', age: 30});
+  const [human, setHuman] = useState([
+    {name: 'Beak', key: '1'},
+    {name: 'Dani', key: '2'},
+    {name: 'Youn', key: '3'}
+  ])
+
 
 
   //function
@@ -45,6 +51,21 @@ export default function App() {
       <TextInput style={styles.input} placeholder='e.g. 45' 
                  onChangeText={(value) => setAge(value)} keyboardType='numeric'/>
 
+
+
+      {/* Using Lists and ScrollView */}           
+      <Text>List Items Displayed as</Text>
+      <ScrollView>
+        {human.map((item)=>{
+          return(
+              <View key={item.key}>
+                <Text style={styles.item}>{item.name}</Text>
+              </View>
+          );
+        })}
+      </ScrollView>
+
+
       <StatusBar style="auto" />
     </View>
   );
@@ -77,6 +98,12 @@ const styles = StyleSheet.create({      //Creating stylesheet
     margin: 8,
     padding: 10, 
     width: 200
+  },
+  item: {
+    marginTop: 24,
+    padding: 30,
+    backgroundColor: 'pink',
+    fontSize: 20
   }
 });
 
