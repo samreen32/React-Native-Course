@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
+import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';    //reactnative supports button view which is self closing tag.
+import { StyleSheet, Text, View, Button, TextInput } from 'react-native';    //reactnative supports button view which is self closing tag.
 
 
 export default function App() {
@@ -15,7 +15,10 @@ export default function App() {
     setPerson({name: 'maryum', age: 20});
   }
 
+
   return (
+
+    /* Introduction */
     <View style={styles.container}>   {/*..View in native is same as div component and 'style={}' is same as 'className={}'.... */}
       <View style={styles.header}>
         <Text style={styles.boldText}>Header</Text> 
@@ -28,7 +31,7 @@ export default function App() {
       </View>
 
 
-     
+     {/* Using the State */}
       <Text>My name is {name}</Text>
       <Text>Person name is {person.name} and his age is {person.age}</Text>
       <View style={styles.buttonContainer}>
@@ -36,6 +39,11 @@ export default function App() {
       </View>     
   
 
+      {/* Using TextInput */}
+      <TextInput style={styles.input} placeholder='e.g. Jhon' 
+                 onChangeText={(value) => setName(value)} multiline/>   {/*multiline allow the user to write in multiple lines. */}
+      <TextInput style={styles.input} placeholder='e.g. 45' 
+                 onChangeText={(value) => setAge(value)} keyboardType='numeric'/>
 
       <StatusBar style="auto" />
     </View>
@@ -62,6 +70,13 @@ const styles = StyleSheet.create({      //Creating stylesheet
   },
   buttonContainer: {
     marginTop: 20,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#777',
+    margin: 8,
+    padding: 10, 
+    width: 200
   }
 });
 
