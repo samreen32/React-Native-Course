@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView } from 'react-native';    //reactnative supports button view which is self closing tag.
+import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList } from 'react-native';    //reactnative supports button view which is self closing tag.
 
 
 export default function App() {
@@ -13,6 +13,12 @@ export default function App() {
     {name: 'Youn', key: '3'}
   ])
 
+  //This is for FlatList as 'key' property is replaced with 'id'.
+  const [being, setBeing] = useState([
+    {name: 'Beak', id: '1'},
+    {name: 'Dani', id: '2'},
+    {name: 'Youn', id: '3'}
+  ])
 
 
   //function
@@ -66,6 +72,19 @@ export default function App() {
       </ScrollView>
 
 
+      {/* Flat List... FlatList contain data and renderItem props and destructuring the 'item' property .. It is prefferable for larger lists*/}
+      {/*For flat list 'key' property works but if we dont have key in our array rather we have an 'id' then it throughs an error. For solving this use 'Keyextractor' in your flatList. */}
+        <FlatList 
+          keyExtractor={(item) => item.id } 
+          numColumns={2}
+          data={being} 
+          renderItem={({ item }) => (
+            <Text style={styles.item}>{item.name}</Text>
+          )}
+        />    
+
+
+
       <StatusBar style="auto" />
     </View>
   );
@@ -103,7 +122,8 @@ const styles = StyleSheet.create({      //Creating stylesheet
     marginTop: 24,
     padding: 30,
     backgroundColor: 'pink',
-    fontSize: 20
+    fontSize: 20,
+    marginHorizontal: 20
   }
 });
 
