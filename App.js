@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View , FlatList, Alert} from 'react-native';    //reactnative supports button view which is self closing tag.
+import { StyleSheet, View , FlatList, Alert, TouchableWithoutFeedback} from 'react-native';    //reactnative supports button view which is self closing tag.
 import Header from './components/Header';
 import TodoItem from './components/TodoItem';
 import AddTodo from './components/AddTodo';
@@ -46,29 +46,28 @@ export default function App () {
 
 
   return (
+    <TouchableWithoutFeedback>      {/* This would help to automatically close the keyboard when we done typing text. */}
+      <View style={styles.container}>   
     
-    /* Introduction */
-    <View style={styles.container}>   
-   
-      {/*............................ Mini Project ............................ */}
+        {/*............................ Mini Project ............................ */}
 
-      {/* Header */}  
-      <Header />
-      <View style={styles.content}>
-        {/* To Form */}
-        <AddTodo submitTodoHandler={submitTodoHandler}/>
-        <View style={styles.list}>
-            <FlatList data={todo} 
-              renderItem={({ item }) => (
-                <TodoItem item={item} pressHandler={pressHandler}/>   //passing props
-              )}
-            />
-        </View>
-      </View>   
+        {/* Header */}  
+        <Header />
+        <View style={styles.content}>
+          {/* To Form */}
+          <AddTodo submitTodoHandler={submitTodoHandler}/>
+          <View style={styles.list}>
+              <FlatList data={todo} 
+                renderItem={({ item }) => (
+                  <TodoItem item={item} pressHandler={pressHandler}/>   //passing props
+                )}
+              />
+          </View>
+        </View>   
 
-      <StatusBar style="auto" />
-    </View>
-      
+        <StatusBar style="auto" />
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
