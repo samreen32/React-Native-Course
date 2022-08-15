@@ -1,122 +1,83 @@
 import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList } from 'react-native';    //reactnative supports button view which is self closing tag.
+import { StyleSheet, View , FlatList, Alert} from 'react-native';    //reactnative supports button view which is self closing tag.
+import Header from './components/Header';
+import TodoItem from './components/TodoItem';
+import AddTodo from './components/AddTodo';
+
+export default function App () {
 
 
-export default function App() {
-
-  const [name, setName] = useState("samreen");    //using the useState hook
-  const [person, setPerson] =useState({name: 'Chanyeol', age: 30});
-  const [human, setHuman] = useState([
-    {name: 'Beak', key: '1'},
-    {name: 'Dani', key: '2'},
-    {name: 'Youn', key: '3'}
-  ])
-
-  //This is for FlatList as 'key' property is replaced with 'id'.
-  const [being, setBeing] = useState([
-    {name: 'Beak', id: '1'},
-    {name: 'Dani', id: '2'},
-    {name: 'Youn', id: '3'}
-  ])
+  //For Mini Project
+  const [todo, setTodo] = useState([
+    {text: 'Buy Coffee', key: '1'},
+    {text: 'Create an App', key: '2'},
+    {text: 'Play on the Switch', key: '3'}
+  ]);
 
 
-  //function
-  const myButton = () =>{
-    setName('Simran Simran');
-    setPerson({name: 'maryum', age: 20});
+
+  //function for Mini Project  
+  const pressHandler = (key) => {
+    setTodo((prevTodo) => {
+      return prevTodo.filter(todo => todo.key != key );   //deleting todo list item by clicking on it.
+    });
   }
 
 
+
+  //function for Mini Project to submit the Todo form
+  const submitTodoHandler =(text)=> {
+
+    if(text.length > 3) {      //check if user enter text less than 3 words, it would not add an item to todo list and will show alert.
+      setTodo ((prevTodo) => {
+        return [
+          {text : text, key: Math.random().toString()}, ...prevTodo]        //...prevTodo uses the seperate operator and it would separate the old array of setTodo and separate them it into this currrent array.
+      })
+    }
+    else {
+      Alert.alert('OOPS', 'Must enter more than 3 chars long word', [
+        {text: 'Understood', onPress: ()=>console.log("Alert Closed")}]  
+      )  //alert arguments: alert title, description and an array which consists of diff objects.
+    }
+   
+  }
+
+
+
   return (
-
+    
     /* Introduction */
-    <View style={styles.container}>   {/*..View in native is same as div component and 'style={}' is same as 'className={}'.... */}
-      <View style={styles.header}>
-        <Text style={styles.boldText}>Header</Text> 
-      </View>
-      <View style={styles.body}>
-        <Text style={styles.boldText}>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-        <Text>Asperiores blanditiis quaerat harum accusamus illum soluta ipsam a magnam et maxime </Text>
-        <Text>deserunt, ratione eligendi veniam voluptatum aliquam repellat iusto inventore? Consectetur.</Text>
-        </Text>
-      </View>
+    <View style={styles.container}>   
+   
+      {/*............................ Mini Project ............................ */}
 
-
-     {/* Using the State */}
-      <Text>My name is {name}</Text>
-      <Text>Person name is {person.name} and his age is {person.age}</Text>
-      <View style={styles.buttonContainer}>
-        <Button title='Update State' onPress={myButton}/>    {/*We cannot add styles property to button directly, not allowed. */}
-      </View>     
-  
-
-      {/* Using TextInput */}
-      <TextInput style={styles.input} placeholder='e.g. Jhon' 
-                 onChangeText={(value) => setName(value)} multiline/>   {/*multiline allow the user to write in multiple lines. */}
-      <TextInput style={styles.input} placeholder='e.g. 45' 
-                 onChangeText={(value) => setAge(value)} keyboardType='numeric'/>
-
-
-
-      {/* Using Lists and ScrollView */}           
-      <Text>List Items Displayed as</Text>
-      <ScrollView>
-        {human.map((item)=>{
-          return(
-              <View key={item.key}>
-                <Text style={styles.item}>{item.name}</Text>
-              </View>
-          );
-        })}
-      </ScrollView>
-
-
-      {/* Flat List... FlatList contain data and renderItem props and destructuring the 'item' property .. It is prefferable for larger lists*/}
-      {/*For flat list 'key' property works but if we dont have key in our array rather we have an 'id' then it throughs an error. For solving this use 'Keyextractor' in your flatList. */}
-        <FlatList 
-          keyExtractor={(item) => item.id } 
-          numColumns={2}
-          data={being} 
-          renderItem={({ item }) => (
-            <Text style={styles.item}>{item.name}</Text>
-          )}
-        />    
-
-
+      {/* Header */}  
+      <Header />
+      <View style={styles.content}>
+        {/* To Form */}
+        <AddTodo submitTodoHandler={submitTodoHandler}/>
+        <View style={styles.list}>
+            <FlatList data={todo} 
+              renderItem={({ item }) => (
+                <TodoItem item={item} pressHandler={pressHandler}/>   //passing props
+              )}
+            />
+        </View>
+      </View>   
 
       <StatusBar style="auto" />
     </View>
+      
   );
 }
+
+
 
 const styles = StyleSheet.create({      //Creating stylesheet
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  header: {
-    backgroundColor: 'pink',
-    padding: 20
-  },
-  boldText: {
-    fontWeight: 'bold'
-  },
-  body: {
-    backgroundColor: 'yellow',
-    padding: 20
-  },
-  buttonContainer: {
-    marginTop: 20,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#777',
-    margin: 8,
-    padding: 10, 
-    width: 200
   },
   item: {
     marginTop: 24,
@@ -124,6 +85,12 @@ const styles = StyleSheet.create({      //Creating stylesheet
     backgroundColor: 'pink',
     fontSize: 20,
     marginHorizontal: 20
+  },
+  content: {
+    padding: 40
+  },
+  list: {
+    marginTop: 20
   }
 });
 
