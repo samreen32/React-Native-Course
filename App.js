@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View , FlatList, Alert, TouchableWithoutFeedback, Keyboard} from 'react-native';    //reactnative supports button view which is self closing tag.
+import { StyleSheet, View , FlatList, Alert } from 'react-native';    //reactnative supports button view which is self closing tag.
 import Header from './components/Header';
 import TodoItem from './components/TodoItem';
 import AddTodo from './components/AddTodo';
+import SandBoxOrFlexBox from './components/SandBoxOrFlexBox';
+
 
 export default function App () {
-
 
   //For Mini Project
   const [todo, setTodo] = useState([
@@ -46,13 +47,13 @@ export default function App () {
 
 
   return (
-
+   // <SandBoxOrFlexBox />
     /* This would help to automatically close the keyboard when we done typing text. */
-    <TouchableWithoutFeedback onPress={()=>{  
-      Keyboard.dismiss();          
-      console.log('dismissed keybord')
-      }}
-    >      
+    // <TouchableWithoutFeedback onPress={()=>{  
+    //   Keyboard.dismiss();          
+    //   console.log('dismissed keybord')
+    //   }}
+    // >      
 
       <View style={styles.container}>   
         {/*............................ Mini Project ............................ */}
@@ -73,7 +74,7 @@ export default function App () {
 
         <StatusBar style="auto" />
       </View>
-    </TouchableWithoutFeedback>
+    // </TouchableWithoutFeedback>
   );
 }
 
@@ -92,10 +93,14 @@ const styles = StyleSheet.create({      //Creating stylesheet
     marginHorizontal: 20
   },
   content: {
-    padding: 40
+    flex: 1,
+    padding: 40,
+    backgroundColor: 'pink',
   },
   list: {
-    marginTop: 20
+    flex: 1,
+    marginTop: 20,
+    backgroundColor: 'yellow',
   }
 });
 
